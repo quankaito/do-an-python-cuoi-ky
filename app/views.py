@@ -1,11 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import *
 # Create your views here.
 def index(request):
-    context= {}
+    products = Product.objects.all()[:3]
+    context= {'products': products}
     return render(request,'app/index.html', context)
 def cart(request):
-    context= {}
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer = customer, complete=False)
+        items = order.orderitem_set.all()
+    else:
+        items = []
+    context= {'items':items, 'order':order}
     return render(request, 'app/cart.html', context)
 def checkout(request):
     context= {}
@@ -20,10 +28,12 @@ def contact(request):
     context= {}
     return render(request, 'app/contact.html', context)
 def services(request):
-    context= {}
+    products = Product.objects.all()[:3]
+    context= {'products': products}
     return render(request,'app/services.html', context)
 def shop(request):
-    context= {}
+    products = Product.objects.all()
+    context= {'products': products}
     return render(request, 'app/shop.html', context)
 def thankyou(request):
     context= {}
