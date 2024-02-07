@@ -9,26 +9,7 @@
 
   <meta name="description" content="" />
   <meta name="keywords" content="bootstrap, bootstrap4" />
-		<!-- JAVA SCRIPT-->
-		<script type="text/javascript">
-			var user = '{{request.user}}'
-			function getCookie(name) {
-				let cookieValue = null;
-				if (document.cookie && document.cookie !== '') {
-					const cookies = document.cookie.split(';');
-					for (let i = 0; i < cookies.length; i++) {
-						const cookie = cookies[i].trim();
-						// Does this cookie string begin with the name we want?
-						if (cookie.substring(0, name.length + 1) === (name + '=')) {
-							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-							break;
-						}
-					}
-				}
-				return cookieValue;
-			}
-			const csrftoken = getCookie('csrftoken');
-		</script>
+		
 		<!-- Bootstrap CSS -->
 		<link href="{%static 'app/css/bootstrap.min.css' %}" rel="stylesheet">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -434,7 +415,7 @@
 		<!-- End Footer Section -->	
 
 		<!-- JAVA SCRIPT -->
-		<script src={% static "app/js/cart.js" %}></script>
+		
 		<script src="{%static 'app/js/bootstrap.bundle.min.js' %}"></script>
 		<script src="{%static 'app/js/tiny-slider.js' %}"></script>
 		<script src="{%static 'app/js/custom.js' %}"></script>

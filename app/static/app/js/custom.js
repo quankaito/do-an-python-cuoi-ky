@@ -27,47 +27,47 @@
 
 
 	var sitePlusMinus = function() {
-
-		var value,
-    		quantity = document.getElementsByClassName('quantity-container');
-
+		var quantityContainers = document.getElementsByClassName('quantity-container');
+	
 		function createBindings(quantityContainer) {
-	      var quantityAmount = quantityContainer.getElementsByClassName('quantity-amount')[0];
-	      var increase = quantityContainer.getElementsByClassName('increase')[0];
-	      var decrease = quantityContainer.getElementsByClassName('decrease')[0];
-	      increase.addEventListener('click', function (e) { increaseValue(e, quantityAmount); });
-	      decrease.addEventListener('click', function (e) { decreaseValue(e, quantityAmount); });
-	    }
-
-	    function init() {
-	        for (var i = 0; i < quantity.length; i++ ) {
-						createBindings(quantity[i]);
-	        }
-	    };
-
-	    function increaseValue(event, quantityAmount) {
-	        value = parseInt(quantityAmount.value, 10);
-
-	        console.log(quantityAmount, quantityAmount.value);
-
-	        value = isNaN(value) ? 0 : value;
-	        value++;
-	        quantityAmount.value = value;
-	    }
-
-	    function decreaseValue(event, quantityAmount) {
-	        value = parseInt(quantityAmount.value, 10);
-
-	        value = isNaN(value) ? 0 : value;
-	        if (value > 0) value--;
-
-	        quantityAmount.value = value;
-	    }
-	    
-	    init();
-		
+			var increaseBtn = quantityContainer.querySelector('.increase');
+			var decreaseBtn = quantityContainer.querySelector('.decrease');
+	
+			increaseBtn.addEventListener('click', function(e) { increaseValue(e); });
+			decreaseBtn.addEventListener('click', function(e) { decreaseValue(e); });
+		}
+	
+		function init() {
+			for (var i = 0; i < quantityContainers.length; i++) {
+				createBindings(quantityContainers[i]);
+			}
+		};
+	
+		function increaseValue(event) {
+			var quantityAmount = event.target.closest('.quantity-container').querySelector('.quantity-amount');
+			var currentValue = parseInt(quantityAmount.textContent);
+			var productId = quantityAmount.dataset.product;
+			var action = 'add'; // Đặt hành động là 'add' hoặc 'remove' tùy thuộc vào yêu cầu của bạn.
+			
+			// Thực hiện cập nhật số lượng trên server bằng AJAX
+			updateUserOrder(productId, action, currentValue + 1);
+		}
+	
+		function decreaseValue(event) {
+			var quantityAmount = event.target.closest('.quantity-container').querySelector('.quantity-amount');
+			var currentValue = parseInt(quantityAmount.textContent);
+			var productId = quantityAmount.dataset.product;
+			var action = 'remove'; // Đặt hành động là 'add' hoặc 'remove' tùy thuộc vào yêu cầu của bạn.
+			
+			// Đảm bảo số lượng không âm trước khi giảm
+			if (currentValue > 0) {
+				// Thực hiện cập nhật số lượng trên server bằng AJAX
+				updateUserOrder(productId, action, currentValue - 1);
+			}
+		}
+	
+		init();
 	};
+	
 	sitePlusMinus();
-
-
 })()
